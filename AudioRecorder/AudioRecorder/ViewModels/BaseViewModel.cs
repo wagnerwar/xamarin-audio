@@ -11,6 +11,7 @@ namespace AudioRecorder.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDataStore<Audio> BancoService => DependencyService.Get<IDataStore<Audio>>();
 
         bool isBusy = false;
         public bool IsBusy

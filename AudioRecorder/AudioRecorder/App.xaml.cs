@@ -14,6 +14,7 @@ namespace AudioRecorder
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<BancoService>();
             MainPage = new AppShell();
         }
 

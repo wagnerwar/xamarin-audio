@@ -5,9 +5,13 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Vertical" HorizontalOptions="Fill">
-                <ImageButton Source="icone_gravar.png" 
+                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                    <ImageButton Source="icone_gravar.png" 
+                             BackgroundColor="Transparent" 
                              Command="{Binding IniciarGravacaoCommand}" 
                              HorizontalOptions="StartAndExpand"></ImageButton>
+                    <Label Text="Gravar" HorizontalOptions="StartAndExpand"></Label>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

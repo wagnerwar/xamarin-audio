@@ -4,9 +4,11 @@
              x:Class="AudioRecorder.Views.AudioPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Vertical" HorizontalOptions="Fill">
+                <ImageButton Source="icone_gravar.png" 
+                             Command="{Binding IniciarGravacaoCommand}" 
+                             HorizontalOptions="StartAndExpand"></ImageButton>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

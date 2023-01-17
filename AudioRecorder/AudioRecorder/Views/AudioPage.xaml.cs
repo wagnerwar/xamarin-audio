@@ -7,6 +7,8 @@ using AudioRecorder.Models;
 using AudioRecorder.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.CommunityToolkit.Extensions;
+using Xamarin.CommunityToolkit.UI.Views.Options;
 
 namespace AudioRecorder.Views
 {
@@ -17,6 +19,10 @@ namespace AudioRecorder.Views
         {
             InitializeComponent();
             this.BindingContext = new AudioViewModel();
+            MessagingCenter.Subscribe<AudioPage, String>(this, "Mensagem", (sender, a) =>
+            {
+                this.DisplayToastAsync(a, 3000);
+            });
         }
     }
 }

@@ -6,11 +6,11 @@
         <StackLayout>
             <StackLayout Orientation="Vertical" HorizontalOptions="Fill">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
-                    <ImageButton Source="icone_gravar.png" 
+                    <ImageButton Source="{Binding Image}" 
                              BackgroundColor="Transparent" 
                              Command="{Binding IniciarGravacaoCommand}" 
                              HorizontalOptions="StartAndExpand"></ImageButton>
-                    <Label Text="Gravar" HorizontalOptions="StartAndExpand"></Label>
+                    <Label Text="Gravar" HorizontalOptions="StartAndExpand" FontSize="Large"></Label>
                 </StackLayout>
             </StackLayout>
         </StackLayout>

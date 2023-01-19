@@ -6,6 +6,7 @@ using AudioRecorder.Views;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using Plugin.AudioRecorder;
+using System.IO;
 namespace AudioRecorder.ViewModels
 {
     public class AudioViewModel : BaseViewModel
@@ -25,6 +26,12 @@ namespace AudioRecorder.ViewModels
             get => gravando;
             set => SetProperty(ref gravando, value);
         }
+        private string nome;
+        public string Nome
+        {
+            get => nome;
+            set => SetProperty(ref nome, value);
+        }
         public Command IniciarGravacaoCommand { get; }
         public AudioViewModel()
         {
@@ -41,7 +48,6 @@ namespace AudioRecorder.ViewModels
         private async void OnIniciarGravacao()
         {                     
             await ProcessarGravacao();
-            //await TratarFimGravacao();
         }
         private async Task TratarFimGravacao()
         {
@@ -49,13 +55,21 @@ namespace AudioRecorder.ViewModels
             Gravando = false;
             // Recuperando arquivo do audio gravado
             var filePath = gravador.GetAudioFilePath();
+            Audio novo = new Audio();
+            novo.Arquivo = File.ReadAllBytes(filePath);
+            novo.Nome = Nome;
+            await BancoService.AddItemAsync(novo);
             MessagingCenter.Send<AudioPage, String>(new AudioPage(), "Mensagem", "Arquivo enviado");
         }
         private async Task ProcessarGravacao()
-        {
+        {            
             Image = imagemGravando;
             try
             {
+                if (String.IsNullOrEmpty(Nome))
+                {
+                    throw new Exception("Nome é obrigatório");
+                }
                 if (!gravador.IsRecording)
                 {
                     gravador.StopRecordingOnSilence = true;
@@ -76,24 +90,9 @@ namespace AudioRecorder.ViewModels
             }
             catch (Exception ex)
             {
+                Image = imagemGravar;
                 MessagingCenter.Send<AudioPage, String>(new AudioPage(), "Mensagem", ex.Message);
             }
-        }
-        private async Task<bool> RecuperarEstadoGravacao()
-        {
-            if (Gravando == true)
-            {
-                return false;
-            }
-            return true;
-            /*if (Image == imagemGravar)
-            {
-                return false;
-            }else if(Image == imagemGravando && Gravando == true)
-            {
-                return true;
-            }
-            return false;*/
         }
     }
 }

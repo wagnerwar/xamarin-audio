@@ -1,13 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AudioRecorder.Views.AudiosPage" Title="Audios gravados">
+             x:Class="AudioRecorder.Views.AudiosPage" 
+             Title="Audios gravados"
+             xmlns:local="clr-namespace:AudioRecorder.ViewModels"  
+             xmlns:model="clr-namespace:AudioRecorder.Models">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Gravar áudio" Command="{Binding GravarCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <RefreshView x:DataType="local:AudiosViewModel" 
+                         Command="{Binding LoadItemsCommand}" 
+                         IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" x:DataType="model:Audio">
+                                <Grid x:DataType="model:Audio">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Nome}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="16" Grid.Column="0" />
+                                    <ImageButton 
+                                        Source="icone_play.png" 
+                                        Grid.Column="1"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:AudiosViewModel}}, Path=PlayAudioCommand}"		
+                                        CommandParameter="{Binding .}" 
+                                        BackgroundColor="Transparent"></ImageButton>
+                                    <ImageButton 
+                                        Source="icone_delete.png" 
+                                        Grid.Column="2"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:AudiosViewModel}}, Path=DeleteAudioCommand}"		
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="Transparent"></ImageButton>
+                                    <ImageButton 
+                                        Source="icone_download.png" 
+                                        Grid.Column="3"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:AudiosViewModel}}, Path=DownloadAudioCommand}"		
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="Transparent"></ImageButton>
+                                </Grid>
 
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

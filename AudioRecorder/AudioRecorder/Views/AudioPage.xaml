@@ -5,7 +5,14 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Vertical" HorizontalOptions="Fill">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                <Entry 
+                    Placeholder="Digite o nome" 
+                    HorizontalOptions="FillAndExpand" 
+                    HorizontalTextAlignment="Start" 
+                    Text="{Binding Nome}"></Entry>
+                <StackLayout 
+                    Orientation="Horizontal" 
+                    HorizontalOptions="StartAndExpand">
                     <ImageButton Source="{Binding Image}" 
                              BackgroundColor="Transparent" 
                              Command="{Binding IniciarGravacaoCommand}" 

@@ -10,16 +10,6 @@ namespace AudioRecorder.Models
     {
         public int Id { get; set; }
         public String Nome { get; set; }
-        public byte[] Arquivo { get; set; }
-        public ImageSource ArquivoSource
-        {
-            get
-            {
-                //String base64Encode = "";
-                //base64Encode = Convert.ToBase64String(Arquivo);
-                ImageSource imageaData = ImageSource.FromStream(() => new MemoryStream(Arquivo));
-                return imageaData;
-            }
-        }
+        public byte[] Arquivo { get; set; }        
     }
 }

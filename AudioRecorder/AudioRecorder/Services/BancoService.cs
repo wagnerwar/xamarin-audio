@@ -71,6 +71,7 @@ namespace AudioRecorder.Services
                         {
 
                             var command = conexao.CreateCommand();
+                            command.CommandText =
                             String.Format(@"
                             insert into audio (nome, arquivo ) values('{0}', @pic)
                             ", item.Nome);
@@ -176,7 +177,7 @@ namespace AudioRecorder.Services
                     var command = conexao.CreateCommand();
                     command.CommandText =
                     String.Format(@"
-                        select id, nome, arquivo from audio
+                        select id, nome, arquivo from audio;
                     ");
                     using (var reader = command.ExecuteReader())
                     {

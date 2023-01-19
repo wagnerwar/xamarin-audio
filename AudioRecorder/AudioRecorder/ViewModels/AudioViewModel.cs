@@ -11,6 +11,7 @@ namespace AudioRecorder.ViewModels
 {
     public class AudioViewModel : BaseViewModel
     {
+        private AudioPlayer reprodutor;
         private String imagemGravar = "icone_gravar.png";
         private String imagemGravando = "icone_stop.png";
         AudioRecorderService gravador;
@@ -35,8 +36,9 @@ namespace AudioRecorder.ViewModels
         public Command IniciarGravacaoCommand { get; }
         public AudioViewModel()
         {
+            
             gravador = new AudioRecorderService
-            {
+            {                
                 StopRecordingAfterTimeout = true,
                 TotalAudioTimeout = TimeSpan.FromSeconds(15),
                 AudioSilenceTimeout = TimeSpan.FromSeconds(2)

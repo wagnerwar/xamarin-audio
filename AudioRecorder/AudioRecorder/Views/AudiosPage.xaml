@@ -9,7 +9,7 @@
         <ToolbarItem Text="Gravar áudio" Command="{Binding GravarCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Orientation="Vertical">
             <RefreshView x:DataType="local:AudiosViewModel" 
                          Command="{Binding LoadItemsCommand}" 
                          IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
@@ -52,12 +52,17 @@
                                         CommandParameter="{Binding .}"
                                         BackgroundColor="Transparent"></ImageButton>
                                 </Grid>
-
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </RefreshView>
+            <Button 
+                FontSize="Medium" 
+                BackgroundColor="Aqua" 
+                Text="Limpar Pasta" 
+                TextColor="Black"
+                Command="{Binding Source={RelativeSource AncestorType={x:Type local:AudiosViewModel}}, Path=LimparCommand}"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

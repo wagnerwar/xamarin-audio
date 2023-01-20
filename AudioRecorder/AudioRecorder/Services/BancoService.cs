@@ -208,9 +208,59 @@ namespace AudioRecorder.Services
 
             }
         }
-            public Task<bool> UpdateItemAsync(Audio item)
+        public async Task<bool> UpdateItemAsync(Audio item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await this.CriarBanco();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            try
+            {
+                using (var conexao = new SqliteConnection(DatabasePath))
+                {
+                    conexao.Open();
+                    try
+                    {
+                        using (var transaction = conexao.BeginTransaction())
+                        {
+                            try
+                            {
+                                var command = conexao.CreateCommand();
+                                command.CommandText =
+                                String.Format(@"
+                                update audio set arquivo = @pic  where id = '{0}'
+                                ", item.Id);
+                                command.Parameters.Add("@pic", SqliteType.Blob);
+                                command.Parameters[0].Value = item.Arquivo;
+                                command.ExecuteNonQuery();
+                                transaction.Commit();
+                                return await Task.FromResult(true);
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                throw ex;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conexao.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

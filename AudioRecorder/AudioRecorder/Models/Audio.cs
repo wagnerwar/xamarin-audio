@@ -25,21 +25,15 @@ namespace AudioRecorder.Models
             }
             set
             {
-                imagemReproducaoArquivo = value;
-                NotifyPropertyChanged();
+                if(imagemReproducaoArquivo != value)
+                {
+                    imagemReproducaoArquivo = value;
+                    NotifyPropertyChanged();
+                }                
             }
         }
-        private bool reproducao { get; set; }
         public bool Reproducao {
-            get
-            {
-                return reproducao;
-            }
-            set
-            {
-                reproducao = value;
-                NotifyPropertyChanged();
-            }
+            get; set;
         }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

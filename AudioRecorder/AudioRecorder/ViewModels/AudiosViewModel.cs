@@ -84,16 +84,7 @@ namespace AudioRecorder.ViewModels
                 item.Reproducao = true;
                 await ExibirImagemReproducaoAudio(item);
                 await Task.Delay(TimeSpan.FromSeconds(3));
-                item.Reproducao = false;
-                await ExibirImagemReproducaoAudio(item);
-                /*String caminho = GetCaminhoPasta();
-                if (!Directory.Exists(caminho))
-                {
-                    Directory.CreateDirectory(caminho);
-                }*/
-                //String caminhoArquivo = Path.Combine(caminho, String.Concat(item.Nome, ".wav"));
-                //File.WriteAllBytes(caminhoArquivo, item.Arquivo);
-                //reprodutor.Play(caminhoArquivo);
+                await ExecutarAudio(item);                
             }
             catch (Exception ex)
             {
@@ -101,9 +92,24 @@ namespace AudioRecorder.ViewModels
             }
             finally
             {
-                //item.Reproducao = false;
-                //await ExibirImagemReproducaoAudio(item);
+                item.Reproducao = false;
+                await ExibirImagemReproducaoAudio(item);
             }
+        }
+        async Task ExecutarAudio(Audio item)
+        {
+            await Task.Run(() => TocarAudio(item));
+        }
+        void TocarAudio(Audio item)
+        {
+            String caminho = GetCaminhoPasta();
+            if (!Directory.Exists(caminho))
+            {
+                Directory.CreateDirectory(caminho);
+            }
+            String caminhoArquivo = Path.Combine(caminho, String.Concat(item.Nome, ".wav"));
+            File.WriteAllBytes(caminhoArquivo, item.Arquivo);
+            reprodutor.Play(caminhoArquivo);
         }
         public String GetCaminhoPasta()
         {

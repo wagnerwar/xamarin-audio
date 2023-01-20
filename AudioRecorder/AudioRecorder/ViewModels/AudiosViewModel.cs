@@ -18,6 +18,12 @@ namespace AudioRecorder.ViewModels
         private String Pasta = "gravados";
         private AudioPlayer reprodutor;
         private Audio AudioEmExecucao { get; set; }
+        bool isLoading = false;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { SetProperty(ref isLoading, value); }
+        }
         public ObservableCollection<Audio> Items { get; }
         public Command GravarCommand { get; }
         public Command LimparCommand { get; }
@@ -65,14 +71,16 @@ namespace AudioRecorder.ViewModels
         }
         private async Task CarregarAudios()
         {
+            isLoading = true;
             Items.Clear();
-            await Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromSeconds(3));
             var items = await BancoService.GetItemsAsync(true);
             foreach (var item in items)
             {
                 await ExibirImagemReproducaoAudio(item);
                 Items.Add(item);
             }
+            IsLoading = false;
         }
         private async void DeleteArquivo(Audio item)
         {

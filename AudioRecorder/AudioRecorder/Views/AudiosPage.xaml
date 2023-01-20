@@ -10,6 +10,13 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
+            <ActivityIndicator Color="Black" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                x:Name="actInd"
+                x:DataType="local:AudiosViewModel"
+                IsVisible="{Binding IsLoading}" 
+                IsRunning="{Binding IsLoading}" />
             <RefreshView x:DataType="local:AudiosViewModel" 
                          Command="{Binding LoadItemsCommand}" 
                          IsRefreshing="{Binding IsBusy, Mode=TwoWay}">

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
-
+using AudioRecorder.Interfaces;
 namespace AudioRecorder.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
         public IDataStore<Audio> BancoService => DependencyService.Get<IDataStore<Audio>>();
-
+        public IPathService PathService => DependencyService.Get<IPathService>();
         bool isBusy = false;
         public bool IsBusy
         {

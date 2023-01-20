@@ -34,7 +34,7 @@
                                         Style="{DynamicResource ListItemTextStyle}" 
                                         FontSize="16" Grid.Column="0" />
                                     <ImageButton 
-                                        Source="icone_play.png" 
+                                        Source="{Binding ImagemReproducaoArquivo, Mode=TwoWay}" 
                                         Grid.Column="1"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:AudiosViewModel}}, Path=PlayAudioCommand}"		
                                         CommandParameter="{Binding .}" 

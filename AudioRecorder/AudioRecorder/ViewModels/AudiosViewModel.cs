@@ -16,6 +16,7 @@ namespace AudioRecorder.ViewModels
     public class AudiosViewModel : BaseViewModel
     {
         private String Pasta = "gravados";
+      
         private AudioPlayer reprodutor;
         public ObservableCollection<Audio> Items { get; }
         public Command GravarCommand { get; }
@@ -30,6 +31,7 @@ namespace AudioRecorder.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
             GravarCommand = new Command(OnGravar);
             DeleteAudioCommand = new Command<Audio>(DeleteArquivo);
+            PlayAudioCommand = new Command<Audio>(Reproduzir);
         }
         private async void OnGravar()
         {
@@ -58,6 +60,7 @@ namespace AudioRecorder.ViewModels
             var items = await BancoService.GetItemsAsync(true);
             foreach (var item in items)
             {
+                await ExibirImagemReproducaoAudio(item);
                 Items.Add(item);
             }
         }
@@ -78,29 +81,46 @@ namespace AudioRecorder.ViewModels
         {
             try
             {
-                
-                String caminho = GetCaminhoPasta();
+                item.Reproducao = true;
+                await ExibirImagemReproducaoAudio(item);
+                await Task.Delay(TimeSpan.FromSeconds(3));
+                item.Reproducao = false;
+                await ExibirImagemReproducaoAudio(item);
+                /*String caminho = GetCaminhoPasta();
                 if (!Directory.Exists(caminho))
                 {
                     Directory.CreateDirectory(caminho);
-                }
-                String caminhoArquivo = Path.Combine(caminho, String.Concat(item.Nome, ".wav"));
-                File.WriteAllBytes(caminhoArquivo, item.Arquivo);
-                reprodutor.Play(caminhoArquivo);
-
-                MessagingCenter.Send<AudiosPage, String>(new AudiosPage(), "Mensagem", "Arquivo deletado com sucesso");
+                }*/
+                //String caminhoArquivo = Path.Combine(caminho, String.Concat(item.Nome, ".wav"));
+                //File.WriteAllBytes(caminhoArquivo, item.Arquivo);
+                //reprodutor.Play(caminhoArquivo);
             }
             catch (Exception ex)
             {
                 MessagingCenter.Send<AudiosPage, String>(new AudiosPage(), "Mensagem", ex.Message);
             }
+            finally
+            {
+                //item.Reproducao = false;
+                //await ExibirImagemReproducaoAudio(item);
+            }
         }
         public String GetCaminhoPasta()
         {
-            String basePath = DependencyService.Get<IPathService>().Sounds;
+            String basePath = PathService.Sounds;
             String caminho = Path.Combine(basePath, Pasta);
             return caminho;
         }
-         
+        public async Task ExibirImagemReproducaoAudio(Audio item)
+        {            
+            if (item.Reproducao)
+            {
+                item.ImagemReproducaoArquivo = item.ImagemReproduzindo;
+            }
+            else
+            {
+                item.ImagemReproducaoArquivo = item.ImagemReproduzir;
+            }                        
+        }
     }
 }
